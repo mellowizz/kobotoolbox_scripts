@@ -1,22 +1,22 @@
+
 import requests
 import sys
 import json
 
+
 base_url = "https://kc.kobotoolbox.org/api/v1/"
 
-form_url = base_url + 'forms' # + pk + '/csv_import'
-data_url = base_url + 'data/' # + pk
+data_url = base_url + 'data/'
 user = raw_input("Please enter your username: ")
 password = raw_input("Please enter your password: ")
-formtitle = raw_input("Please enter your formname: ")
+pk = raw_input("Please enter your formid: ")
 fileloc = raw_input("Please enter the path of the file you want to upload: ")
-form_url = form_url + '?owner={}'.format(user)
-
+form_url = base_url + 'forms/' + pk + '/csv_import'
 print(form_url)
-pk = ''
 with requests.Session() as s:
     r = s.get(form_url, auth=(user, password))
     print(r)
+    upload_url = data_url + pk + "/csv_import"
     data = json.loads(r.text)
     for i in data:
         if i == i['title']:
